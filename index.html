@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+  	<meta charset="utf-8" />
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+  	<title>Minor and Major Pentatonics Combined</title>
+  	
+  	<!-- Bootstrap -->
+  	<link href="lib/bootstrap-3.1.1-dist/css/bootstrap.min.css" rel="stylesheet" />
+  	
+  	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  	<!--[if lt IE 9]>
+    		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  	<![endif]-->
+  
+  	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+  	<!-- Include all compiled plugins (below), or include individual files as needed -->
+  	<script src="lib/bootstrap-3.1.1-dist/js/bootstrap.min.js"></script>
+  	
+    <style>
+      body { background: #fefefe; }
+      #shape-raw { display: none; }
+      .shape { margin: 20px; float: left; }
+      .shape .name { margin-left: -20px; }
+      .shape .marker { width: 15px; height: 15px; margin-left: -7.5px; background: black; -webkit-border-radius: 7.5px; -moz-border-radius: 7.5px; border-radius: 7.5px; }
+      .shape .marker.blue { background: blue; }
+      .shape .marker.red { background: red; }
+      .shape .marker.purple { background: purple; }
+      .shape table { border-spacing: 0; border-collapse: collapse; }
+      .shape table td { width: 25px; height: 40px; }
+      .shape table tr td:not(:last-child) { border:2px solid black; }
+    </style>
+
+  	<script>
+  	
+  	 (function($)
+      {
+        
+        var shapes = {
+
+          minor: [
+            
+            [ 1, 1, 1, 1, 1, 1,
+              0, 0, 0, 0, 0, 0,
+              0, 1, 1, 1, 0, 0,
+              1, 0, 0, 0, 1, 1 ], 
+
+            [ 0, 1, 1, 1, 0, 0,
+              1, 0, 0, 0, 1, 1,
+              0, 0, 0, 1, 0, 0,
+              1, 1, 1, 0, 1, 1 ], 
+
+            [ 0, 0, 0, 1, 0, 0,
+              1, 1, 1, 0, 1, 1,
+              0, 0, 0, 0, 0, 0,
+              1, 1, 1, 1, 0, 1,
+              0, 0, 0, 0, 1, 0 ], 
+
+            [ 1, 1, 1, 1, 0, 1,
+              0, 0, 0, 0, 1, 0,
+              0, 0, 1, 1, 0, 0,
+              1, 1, 0, 0, 1, 1 ], 
+
+            [ 0, 0, 1, 1, 0, 0,
+              1, 1, 0, 0, 1, 1,
+              0, 0, 0, 0, 0, 0,
+              1, 1, 1, 1, 1, 1 ]
+          ],
+
+          major: [
+            
+            [ 0, 1, 1, 1, 0, 0,
+              1, 0, 0, 0, 1, 1,
+              0, 0, 0, 1, 0, 0,
+              1, 1, 1, 0, 1, 1 ], 
+
+            [ 0, 0, 0, 1, 0, 0,
+              1, 1, 1, 0, 1, 1,
+              0, 0, 0, 0, 0, 0,
+              1, 1, 1, 1, 0, 1,
+              0, 0, 0, 0, 1, 0 ], 
+
+            [ 1, 1, 1, 1, 0, 1,
+              0, 0, 0, 0, 1, 0,
+              0, 0, 1, 1, 0, 0,
+              1, 1, 0, 0, 1, 1 ], 
+
+            [ 0, 0, 1, 1, 0, 0,
+              1, 1, 0, 0, 1, 1,
+              0, 0, 0, 0, 0, 0,
+              1, 1, 1, 1, 1, 1 ],
+
+            [ 1, 1, 1, 1, 1, 1,
+              0, 0, 0, 0, 0, 0,
+              0, 1, 1, 1, 0, 0,
+              1, 0, 0, 0, 1, 1 ]
+          ],
+
+          combined: [
+
+            [ 0                 , { class: 'major' }, { class: 'major' }, { class: 'major' }, 0                 , 0                 ,
+              { class: 'both' } , { class: 'minor' }, { class: 'minor' }, { class: 'minor' }, { class: 'both' } , { class: 'both' } ,
+              0                 , 0                 , 0                 , { class: 'major' }, 0                 , 0                 ,
+              { class: 'major' }, { class: 'both' } , { class: 'both' } , { class: 'minor' }, { class: 'major' }, { class: 'major' },
+              { class: 'minor' }, 0                 , 0                 , 0                 , { class: 'minor' }, { class: 'minor' } ],
+
+            [ 0                 , 0                 , 0                 , { class: 'major' }, 0                 , 0                 ,
+              { class: 'major' }, { class: 'both' } , { class: 'both' } , { class: 'minor' }, { class: 'major' }, { class: 'major' },
+              { class: 'minor' }, 0                 , 0                 , 0                 , { class: 'minor' }, { class: 'minor' },
+              { class: 'major' }, { class: 'major' }, { class: 'major' }, { class: 'both' } , 0                 , { class: 'major' },
+              { class: 'minor' }, { class: 'minor' }, { class: 'minor' }, 0                 , { class: 'both' } , { class: 'minor' } ],
+
+            [ { class: 'major' }, { class: 'major' }, { class: 'major' }, { class: 'both' } , 0                 , { class: 'major' },
+              { class: 'minor' }, { class: 'minor' }, { class: 'minor' }, 0                 , { class: 'both'  }, { class: 'minor' },
+              0                 , 0                 , { class: 'major' }, { class: 'major' }, 0                 , 0                 ,
+              { class: 'both' } , { class: 'both' } , { class: 'minor' }, { class: 'minor' }, { class: 'major' }, { class: 'both'  },
+              0                 , 0                 , 0                 , 0                 , { class: 'minor' }, 0                  ],
+
+            [ 0                 , 0                 , { class: 'major' }, { class: 'major' }, 0                 , 0                 ,
+              { class: 'both' } , { class: 'both' } , { class: 'minor' }, { class: 'minor' }, { class: 'major' }, { class: 'both' } ,
+              0                 , 0                 , 0                 , 0                 , { class: 'minor' }, 0                 ,
+              { class: 'major' }, { class: 'major' }, { class: 'major' }, { class: 'major' }, { class: 'major' }, { class: 'major' },
+              { class: 'minor' }, { class: 'minor' }, 0                 , 0                 , { class: 'minor' }, { class: 'minor' } ],
+
+            [ { class: 'major' }, { class: 'major' }, { class: 'both' } , { class: 'both' } , { class: 'major' }, { class: 'major' },
+              { class: 'minor' }, { class: 'minor' }, 0                 , 0                 , { class: 'minor' }, { class: 'minor' },
+              0                 , { class: 'major' }, { class: 'major' }, { class: 'major' }, 0                 , 0                 ,
+              { class: 'both' } , { class: 'minor' }, { class: 'minor' }, { class: 'minor' }, { class: 'both' } , { class: 'both' }  ]
+
+          ]
+
+        };
+
+        var shapeIt = function(name, matrix, insertIntoSelector)
+        {
+          var undefined;
+
+          var $target = $(insertIntoSelector || 'body');
+          
+          var $shape = $($('#shape-raw').html()).addClass('shape').removeAttr('id');
+
+          //set name
+          $('.name', $shape).text(name);
+
+          //get marker
+          var $marker = $('.marker', $shape).addClass('hide').clone().removeClass('hide');
+
+          //get row
+          var $row = $('tr', $shape).clone();
+
+          //get column
+          var $column = $('td', $shape).clone();
+
+          $('tr', $shape).remove();
+
+          var outerHTML = function($el)
+          {
+            return $('<div />').append($el.clone()).html();
+          };
+
+          var row, column;
+
+          var HTML = '';
+
+          for(var i = 0, len = matrix.length; i < len; i++)
+          {
+            row = parseInt(i / 6), column = i % 6;
+
+            if(column === 0)
+            {
+              HTML += '<tr>';
+            }
+
+            HTML += '<td>';
+
+            if(matrix[i] === 1)
+            {
+              HTML += outerHTML($marker);
+            }
+            else if (typeof matrix[i] === 'object')
+            {
+              if(typeof matrix[i]['class'] === 'string')
+              {
+                HTML += outerHTML($marker.clone().addClass(matrix[i]['class']));
+              }
+              else if(matrix[i]['class'] instanceof Array)
+              {
+                HTML += outerHTML($marker.clone().addClass(matrix[i]['class'].join(' ')));
+              }
+            }
+
+            HTML += '</td>';
+
+            if(column === 5)
+            {
+              HTML += '</tr>';
+            }
+          }
+
+          $('table', $shape).append(HTML);
+
+          $target.append($shape);
+        }
+
+        $(function()
+        {
+          for(index in shapes)
+          {
+            for(var i = 0, len = shapes[index].length; i < len; i++)
+            {
+              shapeIt((i + 1) + '.', shapes[index][i], '.pentatonic.' + index);
+            }
+          }
+
+          $('input[name="combined-preference"]').change(function()
+          {
+            var $this = $(this);
+
+            $('.shape .minor, .shape .major, .shape .both', '.pentatonic.combined').removeClass('blue red purple');
+
+            $($this.val(), '.pentatonic.combined').each(function(i, e)
+            {
+              var $e = $(e);
+
+              if($e.hasClass('minor'))
+              {
+                $e.addClass('blue');
+              }
+
+              if($e.hasClass('major'))
+              {
+                $e.addClass('red');
+              }
+
+              if($e.hasClass('both'))
+              {
+                if($this.val().indexOf('minor') > -1 && $this.val().indexOf('major') === -1)
+                {
+                  $e.addClass('blue');
+                }
+                else if($this.val().indexOf('major') > -1 && $this.val().indexOf('minor') === -1)
+                {
+                  $e.addClass('red');
+                }
+                else
+                {
+                  $e.addClass('purple');
+                }
+              }
+            });
+          });
+        });
+
+      })(jQuery);
+  		
+  	</script>
+    <script id="shape-raw" type="text/template">
+      <div>
+        <h4 class="name"></h4>
+        <table>
+          <tr>
+            <td></td>
+          </tr>
+        </table>
+        <div class="marker"></div>
+      </div>
+    </script>
+  </head>
+  <body>
+    <div class="container">
+
+      <h1>Minor Pentatonic</h1>
+      <div>
+        <div class="pentatonic minor clearfix"></div>
+      </div>
+      <hr />
+
+      <h1>Major Pentatonic</h1>
+      <div>
+        <div class="pentatonic major clearfix"></div>
+      </div>
+      <hr />
+
+      <h1>Minor combined with Major (Pentatonic)</h1>
+      <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary active">
+          <input type="radio" name="combined-preference" value="" autocomplete="off" checked> Both [black]
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="combined-preference" value=".shape .major, .shape .minor, .shape .both" autocomplete="off"> Both [colorized]
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="combined-preference" value=".shape .minor, .shape .both" autocomplete="off"> Minor
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="combined-preference" value=".shape .major, .shape .both" autocomplete="off"> Major
+        </label>
+      </div>
+      <div>
+        <div class="pentatonic combined clearfix"></div>
+      </div>
+      <hr />
+    </div>
+  </body>
+</html>
